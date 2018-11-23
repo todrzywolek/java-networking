@@ -89,7 +89,22 @@ class SizeSpecification implements Specification<Product> {
     }
 }
 
-class Demo {
+class AndSpecification<T> implements Specification<T> {
+    private Specification<T> first, second;
+
+    public AndSpecification(Specification<T> first, Specification<T> second) {
+        this.first = first;
+        this.second = second;
+    }
+
+    @Override
+    public boolean isSatisfied(T item) {
+        return first.isSatisfied(item) && second.isSatisfied(item);
+    }
+}
+
+
+class OCPDemo {
     public static void main(String[] args) {
         Product apple = new Product("Apple", Color.GREEN, Size.SMALL);
         Product tree = new Product("Tree", Color.GREEN, Size.LARGE);
@@ -106,5 +121,13 @@ class Demo {
         System.out.println("Green products (new):");
         bf.filter(products, new ColorSpecification(Color.GREEN))
                 .forEach(p -> System.out.println(" - " + p.name + " is green"));
+
+        System.out.println("Large blue items:");
+        bf.filter(products,
+                new AndSpecification<>(
+                        new ColorSpecification(Color.BLUE),
+                        new SizeSpecification(Size.LARGE)
+                ))
+                .forEach(p -> System.out.println(" - " + p.name + " is large and blue"));
     }
 }

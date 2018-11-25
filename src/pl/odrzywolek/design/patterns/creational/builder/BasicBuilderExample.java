@@ -1,4 +1,4 @@
-package pl.todrzywolek.design.principles.pl.todrzywolek.design.patterns.creational.builder;
+package pl.odrzywolek.design.patterns.creational.builder;
 
 import java.util.ArrayList;
 import java.util.Collections;
